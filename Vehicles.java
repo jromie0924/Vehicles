@@ -90,12 +90,12 @@ public class Vehicles {
     System.out.println("- addVehicle");
     System.out.println("- deleteIndex(x), where x is the index of a vehicle in the list."); // error checking needed
     System.out.println("- delete(VIN), where VIN is a particular vehicle's VIN"); // error checking needed
-    System.out.println("- listAll");
-    System.out.println("- getInfo(VIN) will get print the information for a vehicle with VIN. The vehicle must be in the inventory, however.");
+    System.out.println("- listAll -- list all vehicles in inventory");
+    System.out.println("- getInfo(VIN) -- print the information for a vehicle with VIN. The vehicle must be in the inventory, however.");
     System.out.println("- findByYear(yr)"); // write this method
     System.out.println("- findByMake(mk)"); // write this method
     System.out.println("- addToMileage(vehicle(s), miles) -- this will take increase the mileage on each of the vehicles entered by the amount of miles specified."); // write this method
-    System.out.println("- Help, print this option menu");
+    System.out.println("- help -- print this option menu");
     System.out.println("- exit");
   }
 
@@ -103,8 +103,9 @@ public class Vehicles {
     boolean quit = false;
     Vehicles garage = new Vehicles("carData.txt");
     Scanner in = new Scanner(System.in);
-    System.out.println("\n\n\nHello! This program is a basic console vehicle inventory management system.\n");
-    System.out.println("You can type the following commands:");
+    System.out.println("\n\n\nHello! This program is a basic console vehicle inventory management system.");
+    System.out.println("The file \"carData.txt\" has already been read, and the inventory has been filled with its vehicle data.");
+    System.out.println("You can type the following commands:\n");
     listOptions();
 
     while(!quit) {
@@ -137,8 +138,13 @@ public class Vehicles {
           }
 
           else if(upper.contains("DELETE")) {
-            String vin = upper.substring(upper.indexOf("(") + 1, upper.lastIndexOf(")"));
-            garage.delete(vin);
+            try{
+              String vin = upper.substring(upper.indexOf("(") + 1, upper.lastIndexOf(")"));
+              garage.delete(vin);
+            } catch (StringIndexOutOfBoundsException e) {
+              System.out.println("This is not a valid command.");
+              continue;
+            }
           }
 
           else if(upper.contains("GETINFO")) {
