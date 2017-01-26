@@ -35,19 +35,34 @@ public class Vehicles {
     }
   }
 
+  public void addVehicle() {
+    Vehicle vehicle = new Vehicle();
+    library.add(vehicle);
+  }
+
   public void delete(int index) {
-    library.remove(index);
+    try{
+      library.remove(index);
+    } catch(IndexOutOfBoundsException e) {
+      System.out.println("This index is out of bounds.");
+    }
   }
 
   // Loop through and delete the first Vehicle that matches vin.
   // This method assumes the realistic that each vin is distinct
   // For large lists this can improve performance
   public void delete(String vin) {
+    boolean found = false;
     for(int a = 0; a < library.size(); a++) {
       if(library.get(a).getVin().equals(vin)) {
         library.remove(a);
+        found = true;
         break;
       }
+    }
+
+    if(!found) {
+      System.out.println("This VIN was not found in inventory.");
     }
   }
 
@@ -71,11 +86,7 @@ public class Vehicles {
     }
   }
 
-  public static void main(String[] args) {
-    Vehicles garage = new Vehicles("carData.txt");
-    Scanner in = new Scanner(System.in);
-    System.out.println("\n\n\nHello! This program is a basic console vehicle inventory management system.\n");
-    System.out.println("You can type the following commands:");
+  public static void listOptions() {
     System.out.println("- addVehicle");
     System.out.println("- deleteIndex(x), where x is the index of a vehicle in the list."); // error checking needed
     System.out.println("- delete(VIN), where VIN is a particular vehicle's VIN"); // error checking needed
@@ -84,13 +95,58 @@ public class Vehicles {
     System.out.println("- findByYear(yr)"); // write this method
     System.out.println("- findByMake(mk)"); // write this method
     System.out.println("- addToMileage(vehicle(s), miles) -- this will take increase the mileage on each of the vehicles entered by the amount of miles specified."); // write this method
+    System.out.println("- Help, print this option menu");
     System.out.println("- exit");
+  }
 
-    while(true) {
-      System.out.print("--> ");
+  public static void main(String[] args) {
+    boolean quit = false;
+    Vehicles garage = new Vehicles("carData.txt");
+    Scanner in = new Scanner(System.in);
+    System.out.println("\n\n\nHello! This program is a basic console vehicle inventory management system.\n");
+    System.out.println("You can type the following commands:");
+    listOptions();
+
+    while(!quit) {
+      System.out.print("\n--> ");
       String command = in.next();
-      if(command.equalsIgnoreCase("EXIT")) {
-        break;
+
+      switch(command.toUpperCase()) {
+        case "ADDVEHICLE":
+          garage.addVehicle();
+          break;
+
+        case "LISTALL":
+          garage.printVehicles();
+          break;
+
+        case "EXIT":
+          quit = true;
+          break;
+
+        case "HELP":
+          System.out.println();
+          listOptions();
+          continue;
+
+        default:
+          String upper = command.toUpperCase();
+          if(upper.contains("DELETEINDEX")) {
+            int idx = Integer.parseInt(upper.substring(upper.indexOf("(") + 1, upper.lastIndexOf(")")));
+            garage.delete(idx);
+          }
+
+          else if(upper.contains("DELETE")) {
+            String vin = upper.substring(upper.indexOf("(") + 1, upper.lastIndexOf(")"));
+            garage.delete(vin);
+          }
+
+          else if(upper.contains("GETINFO")) {
+            String vin = upper.substring(upper.indexOf("(") + 1, upper.lastIndexOf(")"));
+            garage.getInfo(vin);
+          }
+
+          // continue here
       }
     }
   }

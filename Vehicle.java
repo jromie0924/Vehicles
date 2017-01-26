@@ -33,16 +33,31 @@ public class Vehicle {
     year = reader.nextInt();
     System.out.print("\nWhat's the " + year + " " + make + " " + model + "'s MSRP? --> ");
     msrp = reader.nextDouble();
+    if(!make.equalsIgnoreCase("TESLA")) {
+      System.out.println("\nHow many miles since the last oil change? --> ");
+      milesSinceLastOilChange = reader.nextDouble();
+    } else {
+      milesSinceLastOilChange = -1;
+    }
     System.out.print("\nHow many miles are on it? --> ");
     numMiles = reader.nextDouble();
     System.out.print("\nHow much does the car weigh? --> ");
     weight = reader.nextDouble();
 
-    System.out.print("\n.\n.\n.\n.\nLast one: is this the best car ever made (\"yes\" or \"no\")? --> ");
-    String userAnswer = reader.next();
-    if(!(make.equalsIgnoreCase("Subaru") && year == 2006 && (model.equalsIgnoreCase("Impreza WRX") || model.equalsIgnoreCase("WRX")))) {
-      System.out.println("\nWrong, the best car in the world is the 2006 Subaru Impreza WRX!");
+    if(make.equalsIgnoreCase("SUBARU")) {
+      if(milesSinceLastOilChange >= 7000) {
+        dueForOilChange = true;
+      } else {
+        dueForOilChange = false;
+      }
+    } else {
+      if(milesSinceLastOilChange >= 3000) {
+        dueForOilChange = true;
+      } else {
+        dueForOilChange = false;
+      }
     }
+    System.out.println("\nVehicle added.");
   }
 
   public Vehicle(String[] params) {
