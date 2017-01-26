@@ -86,6 +86,44 @@ public class Vehicles {
     }
   }
 
+  public void findByYear(int yr) {
+    ArrayList<Vehicle> list = new ArrayList<Vehicle>();
+    for(int a = 0; a < library.size(); a++) {
+      Vehicle current = library.get(a);
+      if(current.getYear() == yr) {
+        list.add(current);
+      }
+    }
+
+    int listLen = list.size();
+    if(listLen == 0) {
+      System.out.println("No vehicles found in inventory that are " + yr + " models.");
+    } else {
+      for(int a = 0; a < listLen; a++) {
+        list.get(a).printVehicle();
+      }
+    }
+  }
+
+  public void findByMake(String mk) {
+    ArrayList<Vehicle> list = new ArrayList<Vehicle>();
+    for(int a = 0; a < library.size(); a++) {
+      Vehicle current = library.get(a);
+      if(current.getMake().equalsIgnoreCase(mk)) {
+        list.add(current);
+      }
+    }
+
+    int listLen = list.size();
+    if(listLen == 0) {
+      System.out.println("No vehicles found in inventory that are " + mk + "s.");
+    } else {
+      for(int a = 0; a < listLen; a++) {
+        list.get(a).printVehicle();
+      }
+    }
+  }
+
   public static void listOptions() {
     System.out.println("- addVehicle");
     System.out.println("- deleteIndex(x), where x is the index of a vehicle in the list."); // error checking needed
@@ -152,7 +190,15 @@ public class Vehicles {
             garage.getInfo(vin);
           }
 
-          // continue here
+          else if(upper.contains("FINDBYYEAR")) {
+            int yr = Integer.parseInt(upper.substring(upper.indexOf("(") + 1, upper.lastIndexOf(")")));
+            garage.findByYear(yr);
+          }
+
+          else if(upper.contains("FINDBYMAKE")) {
+            String mk = upper.substring(upper.indexOf("(") + 1, upper.lastIndexOf(")"));
+            garage.findByMake(mk);
+          }
       }
     }
   }
