@@ -170,7 +170,7 @@ public class Vehicles {
 
     while(!quit) {
       System.out.print("\n--> ");
-      String command = in.next();
+      String command = in.nextLine().replaceAll("\\s+", "");
 
       switch(command.toUpperCase()) {
         case "ADDVEHICLE":
@@ -224,7 +224,6 @@ public class Vehicles {
 
           else if(upper.contains("ADDTOMILEAGE")) {
             try {
-              upper = upper.replaceAll("\\s+", "");
               String[] params = upper.substring(upper.indexOf("(") + 1, upper.lastIndexOf(")")).split(",");
               String[] vins = new String[params.length - 1];
               for(int a = 1; a < params.length; a++) {
@@ -234,7 +233,7 @@ public class Vehicles {
               double miles = Double.parseDouble(params[0]);
 
               garage.addToMileage(miles, vins);
-            } catch (StringIndexOutOfBoundsException e) {
+            } catch (StringIndexOutOfBoundsException | NumberFormatException e) {
               System.out.println("Incorrect format. Be sure that you enter the available commands as follows:\n");
               listOptions();
             }
