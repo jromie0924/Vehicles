@@ -124,6 +124,28 @@ public class Vehicles {
     }
   }
 
+  public void addToMileage(double miles, String... vins) {
+    int len = vins.length;
+    int num = len;
+    ArrayList<Vehicle> list = new ArrayList<Vehicle>();
+    for(int a = 0; a < len; a++) {
+      boolean found = false;
+      for(int b = 0; b < library.size(); b++) {
+        Vehicle current = library.get(b);
+        if(current.getVin().equals(vins[a])) {
+          current.changeMileage(miles);
+          found = true;
+          break;
+        }
+      }
+      if(!found) {
+        System.out.println("VIN \"" + vins[a] + "\" not found.");
+        num--;
+      }
+    }
+    System.out.println("Increased the miles on " + num + " vehicles.");
+  }
+
   public static void listOptions() {
     System.out.println("- addVehicle");
     System.out.println("- deleteIndex(x), where x is the index of a vehicle in the list."); // error checking needed
@@ -198,6 +220,24 @@ public class Vehicles {
           else if(upper.contains("FINDBYMAKE")) {
             String mk = upper.substring(upper.indexOf("(") + 1, upper.lastIndexOf(")"));
             garage.findByMake(mk);
+          }
+
+          else if(upper.contains("ADDTOMILEAGE")) {
+            try {
+              upper = upper.replaceAll("\\s+", "");
+              String[] params = upper.substring(upper.indexOf("(") + 1, upper.lastIndexOf(")")).split(",");
+              String[] vins = new String[params.length - 1];
+              for(int a = 1; a < params.length; a++) {
+                vins[a - 1] = params[a];
+              }
+
+              double miles = Double.parseDouble(params[0]);
+
+              garage.addToMileage(miles, vins);
+            } catch (StringIndexOutOfBoundsException e) {
+              System.out.println("Incorrect format. Be sure that you enter the available commands as follows:\n");
+              listOptions();
+            }
           }
       }
     }

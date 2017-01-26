@@ -133,6 +133,10 @@ public class Vehicle {
     System.out.print("\n\n");
   }
 
+  public void changeMileage(double miles) {
+    numMiles += miles;
+  }
+
   public String getVin() {
     return vin;
   }
