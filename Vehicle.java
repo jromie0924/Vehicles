@@ -22,13 +22,13 @@ public class Vehicle {
   public Vehicle() {
     Scanner reader = new Scanner(System.in);
     System.out.print("What's the vehicle's VIN? --> ");
-    vin = reader.next();
+    vin = reader.nextLine();
     System.out.print("\nWho makes the vehicle? --> ");
-    make = reader.next();
+    make = reader.nextLine();
     System.out.print("\nWhat model? --> ");
-    model = reader.next();
+    model = reader.nextLine();
     System.out.print("\nWhat color? --> ");
-    color = reader.next();
+    color = reader.nextLine();
     System.out.print("\nWhat year? --> ");
 
     try {
@@ -86,6 +86,52 @@ public class Vehicle {
         dueForOilChange = false;
       }
     }
+
+    oilChangeFreq = 3000;
+
+    switch (make) {
+      case "Subaru":
+        disclaimer = "2016 \u00a9 Fuji Heavy Industries Ltd. All rights reserved";
+        oilChangeFreq = 7000;
+        break;
+
+      case "Ford":
+        disclaimer = "\u00a9 2015 Ford Motor Company";
+        break;
+
+      case "BMW":
+        disclaimer = "\u00a9 Copyright BMW AG, Munich, Germany";
+        break;
+
+      case "Mitsubishi":
+        disclaimer = "\u00a9 Copyright 2017 Mitsubishi Corporation. All Rights Reserved";
+        break;
+
+      case "Porsche":
+        disclaimer = "\u00a9 Porsche Cars North America, Inc.";
+        break;
+
+      case "Tesla":
+        disclaimer = "Tesla Motors \u00a9 2017";
+        oilChangeFreq = 0;
+        milesSinceLastOilChange = -1;
+        break;
+
+      case "Volvo":
+        disclaimer = "\u00a9 Copyright AB Volvo 2017";
+        break;
+
+      default:
+        disclaimer = "";
+        break;
+    }
+
+    if(milesSinceLastOilChange >= oilChangeFreq) {
+      dueForOilChange = true;
+    } else {
+      dueForOilChange = false;
+    }
+
     System.out.println("\nVehicle added.");
   }
 
@@ -151,7 +197,7 @@ public class Vehicle {
     System.out.println(year + " " + make + " " + model);
     System.out.println("VIN: " + vin);
     System.out.println("Color: " + color);
-    System.out.println("Weight: " + weight);
+    System.out.println("Weight: " + weight + " lbs");
     System.out.println("MSRP: $" + msrp);
     System.out.println("Mileage: " + numMiles);
     System.out.println("Miles Since Last Oil Change: " + milesSinceLastOilChange);

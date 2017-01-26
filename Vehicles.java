@@ -55,7 +55,7 @@ public class Vehicles {
   public void delete(String vin) {
     boolean found = false;
     for(int a = 0; a < library.size(); a++) {
-      if(library.get(a).getVin().equals(vin)) {
+      if(library.get(a).getVin().equalsIgnoreCase(vin)) {
         library.remove(a);
         found = true;
         System.out.println("Vehicle removed.");
