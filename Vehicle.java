@@ -30,19 +30,48 @@ public class Vehicle {
     System.out.print("\nWhat color? --> ");
     color = reader.next();
     System.out.print("\nWhat year? --> ");
-    year = reader.nextInt();
+
+    try {
+      year = reader.nextInt();
+    } catch(Exception e) {
+      System.out.println("This field must be a number.");
+    }
+
     System.out.print("\nWhat's the " + year + " " + make + " " + model + "'s MSRP? --> ");
-    msrp = reader.nextDouble();
+
+    try {
+      msrp = reader.nextDouble();
+    } catch(Exception e) {
+      System.out.println("This field must be a number.");
+    }
+
     if(!make.equalsIgnoreCase("TESLA")) {
-      System.out.println("\nHow many miles since the last oil change? --> ");
-      milesSinceLastOilChange = reader.nextDouble();
+      System.out.print("\nHow many miles since the last oil change? --> ");
+      try {
+        milesSinceLastOilChange = reader.nextDouble();
+      } catch(Exception e) {
+        System.out.println("This field must be a number.");
+      }
+
     } else {
       milesSinceLastOilChange = -1;
     }
+
     System.out.print("\nHow many miles are on it? --> ");
-    numMiles = reader.nextDouble();
+
+    try {
+      numMiles = reader.nextDouble();
+    } catch(Exception e) {
+      System.out.println("This field must be a number.");
+    }
+
     System.out.print("\nHow much does the car weigh? --> ");
-    weight = reader.nextDouble();
+
+    try {
+      weight = reader.nextDouble();
+    } catch(Exception e) {
+      System.out.println("This field must be a number.");
+    }
 
     if(make.equalsIgnoreCase("SUBARU")) {
       if(milesSinceLastOilChange >= 7000) {

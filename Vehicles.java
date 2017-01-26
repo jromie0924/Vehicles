@@ -43,6 +43,7 @@ public class Vehicles {
   public void delete(int index) {
     try{
       library.remove(index);
+      System.out.println("Vehicle removed.");
     } catch(IndexOutOfBoundsException e) {
       System.out.println("This index is out of bounds.");
     }
@@ -57,6 +58,7 @@ public class Vehicles {
       if(library.get(a).getVin().equals(vin)) {
         library.remove(a);
         found = true;
+        System.out.println("Vehicle removed.");
         break;
       }
     }
@@ -144,6 +146,108 @@ public class Vehicles {
       }
     }
     System.out.println("Increased the miles on " + num + " vehicles.");
+  }
+
+  public void avgMsrp() {
+    int num = library.size();
+    double sum = 0;
+    for(int a = 0; a < num; a++) {
+      sum += library.get(a).getMsrp();
+    }
+
+    sum /= num;
+    double average = (sum * 100.0);
+    average = Math.round(average);
+    average /= 100;
+    System.out.println("The average MSRP in this inventory is $" + average);
+  }
+
+  public void maxMsrp() {
+    double max = 0;
+    for(int a = 0; a < library.size(); a++) {
+      Vehicle current = library.get(a);
+      if(current.getMsrp() > max) {
+        max = current.getMsrp();
+      }
+    }
+
+    max *= 100;
+    max = Math.round(max);
+    max /= 100;
+
+    System.out.println("The max MSRP in this inventory is $" + max);
+  }
+
+  public void minMsrp() {
+    double min = library.get(0).getMsrp();
+    for(int a = 1; a < library.size(); a++) {
+      Vehicle current = library.get(a);
+      if(current.getMsrp() < min) {
+        min = current.getMsrp();
+      }
+    }
+
+    min *= 100;
+    min = Math.round(min);
+    min /= 100;
+
+    System.out.println("The min MSRP in this inventory is $" + min);
+  }
+
+  public void avgMileage() {
+    int num = library.size();
+    double sum = 0;
+    for(int a = 0; a < num; a++) {
+      sum += library.get(a).getMileage();
+    }
+
+    double avg = sum / num;
+    avg *= 100;
+    avg = Math.round(avg);
+    avg /= 100;
+
+    System.out.println("The average mileage in this inventory is " + avg + " miles.");
+  }
+
+  public void maxMileage() {
+    double max = 0;
+    for(int a = 0; a < library.size(); a++) {
+      Vehicle current = library.get(a);
+      if(current.getMileage() > max) {
+        max = current.getMileage();
+      }
+    }
+
+    max *= 100;
+    max = Math.round(max);
+    max /= 100;
+
+    System.out.println("The vehicle with the most miles in this inventory has " + max + " miles.");
+  }
+
+  public void minMileage() {
+    double min = library.get(0).getMileage();
+    for(int a = 1; a < library.size(); a++) {
+      Vehicle current = library.get(a);
+      if(current.getMileage() < min) {
+        min = current.getMileage();
+      }
+    }
+
+    min *= 100;
+    min = Math.round(min);
+    min /= 100;
+
+    System.out.println("The vehicle with the least amount of miles on it in this inventory has " + min + " miles.");
+  }
+
+  public void getVehiclesNeedingOil() {
+    for(int a = 0; a < library.size(); a++) {
+      Vehicle current = library.get(a);
+      if(current.needsOilChange()) {
+        current.printVehicle();
+      }
+    }
   }
 
   public static void listOptions() {
@@ -237,6 +341,38 @@ public class Vehicles {
               System.out.println("Incorrect format. Be sure that you enter the available commands as follows:\n");
               listOptions();
             }
+          }
+
+          else if(upper.equals("AVERAGEMSRP")) {
+            garage.avgMsrp();
+          }
+
+          else if(upper.equals("MAXMSRP")) {
+            garage.maxMsrp();
+          }
+
+          else if(upper.equals("MINMSRP")) {
+            garage.minMsrp();
+          }
+
+          else if(upper.equals("AVERAGEMILEAGE")) {
+            garage.avgMileage();
+          }
+
+          else if(upper.equals("MAXMILEAGE")) {
+            garage.maxMileage();
+          }
+
+          else if(upper.equals("MINMILEAGE")) {
+            garage.minMileage();
+          }
+
+          else if(upper.equals("NEEDOIL")) {
+            garage.getVehiclesNeedingOil();
+          }
+
+          else {
+            System.out.println("That is not a valid command. Please try again. Enter \"help\" for a list of commands.\n");
           }
       }
     }
