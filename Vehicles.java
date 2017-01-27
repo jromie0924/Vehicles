@@ -395,14 +395,14 @@ public class Vehicles {
   // Lists command options for user.
   public static void listOptions() {
     System.out.println("- addVehicle");
-    System.out.println("- deleteIndex(x), where x is the index of a vehicle in the list."); // error checking needed
-    System.out.println("- delete(VIN), where VIN is a particular vehicle's VIN"); // error checking needed
+    System.out.println("- deleteIndex(x), where x is the index of a vehicle in the list -- this vehicle will be deleted from inventory."); // error checking needed
+    System.out.println("- delete(VIN), where VIN is a particular vehicle's VIN -- This vehicle will be deleted from inventory.."); // error checking needed
     System.out.println("- listAll -- list all vehicles in inventory");
     System.out.println("- getInfo(VIN) -- print the information for a vehicle with VIN. The vehicle must be in the inventory, however.");
     System.out.println("- findByYear(yr)"); // write this method
     System.out.println("- findByMake(mk)"); // write this method
     System.out.println("- addToMileage(vehicle(s), miles) -- this will take increase the mileage on each of the vehicles entered by the amount of miles specified."); // write this method
-    System.out.println("- ChangeOilFrequency(make, frequency) -- this will alter the oil changine needs for a specific car manufacturer.");
+    System.out.println("- ChangeOilFrequency(make, frequency) -- this will alter the oil changing needs for a specific car manufacturer.");
     System.out.println("- help -- print this option menu");
     System.out.println("- exit -- exit the program (inventory changes were saved realtime)");
   }
