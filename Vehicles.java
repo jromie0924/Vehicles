@@ -401,7 +401,7 @@ public class Vehicles {
     System.out.println("- getInfo(VIN) -- print the information for a vehicle with VIN. The vehicle must be in the inventory, however.");
     System.out.println("- findByYear(yr)"); // write this method
     System.out.println("- findByMake(mk)"); // write this method
-    System.out.println("- addToMileage(vehicle(s), miles) -- this will take increase the mileage on each of the vehicles entered by the amount of miles specified."); // write this method
+    System.out.println("- addToMileage(vehicle(s), miles) -- this will increase the mileage on each of the vehicles entered by the amount of miles specified."); // write this method
     System.out.println("- ChangeOilFrequency(make, frequency) -- this will alter the oil changing needs for a specific car manufacturer.");
     System.out.println("- help -- print this option menu");
     System.out.println("- exit -- exit the program (inventory changes were saved realtime)");
