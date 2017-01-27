@@ -412,7 +412,7 @@ public class Vehicles {
     Vehicles garage = new Vehicles("carData.csv");
     Scanner in = new Scanner(System.in);
     System.out.println("\n\n\nHello! This program is a basic console vehicle inventory management system.");
-    System.out.println("The file \"carData.txt\" has already been read, and the inventory has been filled with its vehicle data.");
+    System.out.println("The file \"carData.csv\" has already been read, and the inventory has been filled with its vehicle data.");
     System.out.println("You can type the following commands:\n");
     listOptions();
 
