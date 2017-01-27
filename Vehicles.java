@@ -1,5 +1,9 @@
+// Jackson Romie
+// Class Vehicles
+
 import java.util.*;
 import java.io.*;
+import java.nio.file.*;
 
 public class Vehicles {
 
@@ -21,31 +25,77 @@ public class Vehicles {
     }
 
     library = new ArrayList<Vehicle>();
-
-    in.nextLine();
-    String[] line = in.nextLine().split("\t");
+    String[] line = in.nextLine().split(",");
     Vehicle car = new Vehicle(line);
     library.add(car);
 
     while(in.hasNextLine()) {
       String nextline = in.nextLine();
-      String[] params = nextline.split("\t");
+      String[] params = nextline.split(",");
       Vehicle anotherVehicle = new Vehicle(params);
       library.add(anotherVehicle);
     }
   }
 
-  public void addVehicle() {
+  public void addVehicle() throws IOException {
     Vehicle vehicle = new Vehicle();
     library.add(vehicle);
+
+    // Update the data file
+    try {
+      String line = "";
+      line += vehicle.getVin() + ",";
+      line += vehicle.getMake() + ",";
+      line += vehicle.getModel() + ",";
+      line += vehicle.getColor() + ",";
+      line += Integer.toString(vehicle.getYear()) + ",";
+      line += Double.toString(vehicle.getMsrp()) + ",";
+      line += Double.toString(vehicle.getMilesSinceLastOilChange()) + ",";
+      line += Double.toString(vehicle.getMileage()) + ",";
+      line += Double.toString(vehicle.getWeight()) + "\r\n";
+
+      Files.write(Paths.get("carData.csv"), line.getBytes(), StandardOpenOption.APPEND);
+    } catch(IOException e) {
+      throw(e);
+    }
   }
 
   public void delete(int index) {
-    try{
+    File currentFile = new File("carData.csv");
+    File tempFile = new File("temp.csv");
+    String vin = "";
+    try {
+      vin = library.get(index).getVin();
       library.remove(index);
-      System.out.println("Vehicle removed.");
     } catch(IndexOutOfBoundsException e) {
       System.out.println("This index is out of bounds.");
+      return;
+    }
+
+    try {
+      BufferedReader reader = new BufferedReader(new FileReader(currentFile));
+      BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
+      String line;
+      while((line = reader.readLine()) != null) {
+        String[] params = line.split(",");
+        String fileVin = params[0];
+        if(fileVin.equals(vin)) {
+          continue;
+        } else {
+          writer.write(line + "\r\n");
+        }
+      }
+      writer.close();
+      boolean success = tempFile.renameTo(currentFile);
+      if(success) {
+        System.out.println("Vehicle successfully removed.");
+      } else {
+        System.out.println("Vehicle not correctly removed from data file.");
+      }
+
+    } catch(IOException e) {
+      System.err.println("Unable to communicate with data files");
+      System.exit(1);
     }
   }
 
@@ -53,14 +103,41 @@ public class Vehicles {
   // This method assumes the realistic that each vin is distinct
   // For large lists this can improve performance
   public void delete(String vin) {
+    File currentFile = new File("carData.csv");
+    File tempFile = new File("temp.csv");
     boolean found = false;
     for(int a = 0; a < library.size(); a++) {
       if(library.get(a).getVin().equalsIgnoreCase(vin)) {
         library.remove(a);
         found = true;
-        System.out.println("Vehicle removed.");
         break;
       }
+    }
+
+    try {
+      BufferedReader reader = new BufferedReader(new FileReader(currentFile));
+      BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
+      String line;
+      while((line = reader.readLine()) != null) {
+        String[] params = line.split(",");
+        String fileVin = params[0];
+        if(fileVin.equalsIgnoreCase(vin)) {
+          continue;
+        } else {
+          writer.write(line + "\r\n");
+        }
+      }
+      writer.close();
+      boolean success = tempFile.renameTo(currentFile);
+      if(success) {
+        System.out.println("Vehicle successfully removed.");
+      } else {
+        System.out.println("Vehicle not correctly removed from data file.");
+      }
+
+    } catch(IOException e) {
+      System.err.println("Unable to communicate with data files");
+      System.exit(1);
     }
 
     if(!found) {
@@ -265,7 +342,7 @@ public class Vehicles {
 
   public static void main(String[] args) {
     boolean quit = false;
-    Vehicles garage = new Vehicles("carData.txt");
+    Vehicles garage = new Vehicles("carData.csv");
     Scanner in = new Scanner(System.in);
     System.out.println("\n\n\nHello! This program is a basic console vehicle inventory management system.");
     System.out.println("The file \"carData.txt\" has already been read, and the inventory has been filled with its vehicle data.");
@@ -278,7 +355,12 @@ public class Vehicles {
 
       switch(command.toUpperCase()) {
         case "ADDVEHICLE":
-          garage.addVehicle();
+          try {
+            garage.addVehicle();
+          } catch(IOException e) {
+            System.err.println("Cannot find data file");
+            System.exit(1);
+          }
           break;
 
         case "LISTALL":

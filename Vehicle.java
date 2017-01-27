@@ -1,8 +1,10 @@
+// Jackson Romie
+// Class Vehicle
+
 import java.util.*;
 import java.io.*;
 
 public class Vehicle {
-  // Instance variables
   private String vin;
   private String make;
   private String model;
@@ -73,26 +75,9 @@ public class Vehicle {
       System.out.println("This field must be a number.");
     }
 
-    if(make.equalsIgnoreCase("SUBARU")) {
-      if(milesSinceLastOilChange >= 7000) {
-        dueForOilChange = true;
-      } else {
-        dueForOilChange = false;
-      }
-    } else {
-      if(milesSinceLastOilChange >= 3000) {
-        dueForOilChange = true;
-      } else {
-        dueForOilChange = false;
-      }
-    }
-
-    oilChangeFreq = 3000;
-
     switch (make) {
       case "Subaru":
         disclaimer = "2016 \u00a9 Fuji Heavy Industries Ltd. All rights reserved";
-        oilChangeFreq = 7000;
         break;
 
       case "Ford":
@@ -113,8 +98,6 @@ public class Vehicle {
 
       case "Tesla":
         disclaimer = "Tesla Motors \u00a9 2017";
-        oilChangeFreq = 0;
-        milesSinceLastOilChange = -1;
         break;
 
       case "Volvo":
@@ -124,6 +107,23 @@ public class Vehicle {
       default:
         disclaimer = "";
         break;
+    }
+
+    oilChangeFreq = 3000;
+
+    Scanner reqReader;
+    try {
+      reqReader = new Scanner(new File("specialReqs.csv"));
+      ArrayList<String> makes = new ArrayList<String>();
+      while(reqReader.hasNextLine()) {
+        String[] params = reqReader.nextLine().split(",");
+        if(make.equalsIgnoreCase(params[0])) {
+          oilChangeFreq = Double.parseDouble(params[1]);
+        }
+      }
+    } catch(FileNotFoundException e) {
+      System.err.println("Could not find special requirements file.");
+      System.exit(1);
     }
 
     if(milesSinceLastOilChange >= oilChangeFreq) {
@@ -152,7 +152,6 @@ public class Vehicle {
     switch (make) {
       case "Subaru":
         disclaimer = "2016 \u00a9 Fuji Heavy Industries Ltd. All rights reserved";
-        oilChangeFreq = 7000;
         break;
 
       case "Ford":
@@ -173,7 +172,6 @@ public class Vehicle {
 
       case "Tesla":
         disclaimer = "Tesla Motors \u00a9 2017";
-        oilChangeFreq = 0;
         milesSinceLastOilChange = -1;
         break;
 
@@ -186,6 +184,22 @@ public class Vehicle {
         break;
     }
 
+    Scanner reqReader;
+    try {
+      reqReader = new Scanner(new File("specialReqs.csv"));
+      ArrayList<String> makes = new ArrayList<String>();
+      while(reqReader.hasNextLine()) {
+        String[] reqParams = reqReader.nextLine().split(",");
+        if(make.equalsIgnoreCase(reqParams[0])) {
+          oilChangeFreq = Double.parseDouble(reqParams[1]);
+        }
+      }
+    } catch(FileNotFoundException e) {
+      System.err.println("Could not find special requirements file.");
+      System.exit(1);
+    }
+  //  System.out.println(make);
+  //  System.out.println(oilChangeFreq);
     if(milesSinceLastOilChange >= oilChangeFreq) {
       dueForOilChange = true;
     } else {
@@ -208,6 +222,10 @@ public class Vehicle {
     System.out.print("\n\n");
   }
 
+  public void changeOilChangeFreq(double newFreq) {
+    oilChangeFreq = newFreq;
+  }
+
   public void changeMileage(double miles) {
     numMiles += miles;
   }
@@ -218,6 +236,10 @@ public class Vehicle {
 
   public String getMake() {
     return make;
+  }
+
+  public String getModel() {
+    return model;
   }
 
   public String getColor() {
