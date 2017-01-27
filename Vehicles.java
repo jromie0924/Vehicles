@@ -396,7 +396,7 @@ public class Vehicles {
   public static void listOptions() {
     System.out.println("- addVehicle");
     System.out.println("- deleteIndex(x), where x is the index of a vehicle in the list -- this vehicle will be deleted from inventory."); // error checking needed
-    System.out.println("- delete(VIN), where VIN is a particular vehicle's VIN -- This vehicle will be deleted from inventory.."); // error checking needed
+    System.out.println("- delete(VIN), where VIN is a particular vehicle's VIN -- This vehicle will be deleted from inventory."); // error checking needed
     System.out.println("- listAll -- list all vehicles in inventory");
     System.out.println("- getInfo(VIN) -- print the information for a vehicle with VIN. The vehicle must be in the inventory, however.");
     System.out.println("- findByYear(yr)"); // write this method
