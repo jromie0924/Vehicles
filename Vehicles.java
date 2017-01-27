@@ -120,33 +120,33 @@ public class Vehicles {
       }
     }
 
-    try {
-      BufferedReader reader = new BufferedReader(new FileReader(currentFile));
-      BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
-      String line;
-      while((line = reader.readLine()) != null) {
-        String[] params = line.split(",");
-        String fileVin = params[0];
-        if(fileVin.equalsIgnoreCase(vin)) {
-          continue;
-        } else {
-          writer.write(line + "\r\n");
+    if(found) {
+      try {
+        BufferedReader reader = new BufferedReader(new FileReader(currentFile));
+        BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
+        String line;
+        while((line = reader.readLine()) != null) {
+          String[] params = line.split(",");
+          String fileVin = params[0];
+          if(fileVin.equalsIgnoreCase(vin)) {
+            continue;
+          } else {
+            writer.write(line + "\r\n");
+          }
         }
-      }
-      writer.close();
-      boolean success = tempFile.renameTo(currentFile);
-      if(success) {
-        System.out.println("Vehicle successfully removed.");
-      } else {
-        System.out.println("Vehicle not correctly removed from data file.");
-      }
+        writer.close();
+        boolean success = tempFile.renameTo(currentFile);
+        if(success) {
+          System.out.println("Vehicle successfully removed.");
+        } else {
+          System.out.println("Vehicle not correctly removed from data file.");
+        }
 
-    } catch(IOException e) {
-      System.err.println("Unable to communicate with data files");
-      System.exit(1);
-    }
-
-    if(!found) {
+      } catch(IOException e) {
+        System.err.println("Unable to communicate with data files");
+        System.exit(1);
+      }
+    } else {
       System.out.println("This VIN was not found in inventory.");
     }
   }
