@@ -4,6 +4,7 @@
 import java.util.*;
 import java.io.*;
 
+// This class defines a vehicle.
 public class Vehicle {
   private String vin;
   private String make;
@@ -21,6 +22,8 @@ public class Vehicle {
   private double numMiles;
   private double weight;
 
+  // Default constructor
+  // Promts user for vehicle parameters, then updates the car data file realtime.
   public Vehicle() {
     Scanner reader = new Scanner(System.in);
     System.out.print("What's the vehicle's VIN? --> ");
@@ -135,6 +138,8 @@ public class Vehicle {
     System.out.println("\nVehicle added.");
   }
 
+  // Constructor used at program startup
+  // The "params" parameter is a line from the carData.csv data file.
   public Vehicle(String[] params) {
     vin = params[0];
     make = params[1];
@@ -207,6 +212,7 @@ public class Vehicle {
     }
   }
 
+  // Prints out vehicle's information
   public void printVehicle() {
     System.out.println(year + " " + make + " " + model);
     System.out.println("VIN: " + vin);
@@ -222,6 +228,7 @@ public class Vehicle {
     System.out.print("\n\n");
   }
 
+  // Alter vehicle's oil changing requirements.
   public void changeOilNeeds(double newFreq) {
     oilChangeFreq = newFreq;
     if(milesSinceLastOilChange >= oilChangeFreq) {
@@ -231,46 +238,57 @@ public class Vehicle {
     }
   }
 
+  // Change the vehicle's mileage.
   public void changeMileage(double miles) {
     numMiles += miles;
   }
 
+  // Return vehicle's VIN.
   public String getVin() {
     return vin;
   }
 
+  // Return vehicle's manufacturer name.
   public String getMake() {
     return make;
   }
 
+  // Return vehicle model.
   public String getModel() {
     return model;
   }
 
+  // Return vehicle color.
   public String getColor() {
     return color;
   }
 
+  // Return vehicle model year.
   public int getYear() {
     return year;
   }
 
+  // Return whether vehicle requires oil change.
   public boolean needsOilChange() {
     return dueForOilChange;
   }
 
+  // Return vehicle MSRP.
   public double getMsrp() {
     return msrp;
   }
 
+  // Return miles since vehicle's last oil change.
   public double getMilesSinceLastOilChange() {
     return milesSinceLastOilChange;
   }
 
+  // Return how many miles are on vehile.
   public double getMileage() {
     return numMiles;
   }
 
+  // Return vehicle weight.
   public double getWeight() {
     return weight;
   }

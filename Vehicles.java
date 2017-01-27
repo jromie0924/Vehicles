@@ -5,11 +5,12 @@ import java.util.*;
 import java.io.*;
 import java.nio.file.*;
 
+// This class is the vehicle inventory class.
 public class Vehicles {
 
   private ArrayList<Vehicle> library;
 
-  // Default constructor
+  // Default constructor - unused
   public Vehicles() {
     library = new ArrayList<Vehicle>();
   }
@@ -37,6 +38,8 @@ public class Vehicles {
     }
   }
 
+  // For adding a vehicle to the current inventory.
+  // Modifies the carData.csv file in real time.
   public void addVehicle() throws IOException {
     Vehicle vehicle = new Vehicle();
     library.add(vehicle);
@@ -60,6 +63,9 @@ public class Vehicles {
     }
   }
 
+  // Deletes a vehicle from inventory by its index in the list.
+  // Not as practical as the overridden version of this which
+  // deletes a vehicle by its VIN.
   public void delete(int index) {
     File currentFile = new File("carData.csv");
     File tempFile = new File("temp.csv");
@@ -145,6 +151,7 @@ public class Vehicles {
     }
   }
 
+  // Gets a vehicle's information by its VIN.
   public void getInfo(String vin) {
     boolean found = false;
     for(int a = 0; a < library.size(); a++) {
@@ -159,6 +166,8 @@ public class Vehicles {
     }
   }
 
+  // Alters a vehicle's required oil change frequency (in miles).
+  // Also updates the "specialReqs.csv" data file in real time.
   public void changeOilChangeNeeds(String make, double freq) {
     for(int a = 0; a < library.size(); a++) {
       Vehicle current = library.get(a);
@@ -191,7 +200,7 @@ public class Vehicles {
         line = make + "," + freq;
         writer.write(line + "\r\n");
       }
-      
+
       writer.close();
       boolean success = tempFile.renameTo(currentFile);
       if(success) {
@@ -204,12 +213,14 @@ public class Vehicles {
     }
   }
 
+  // Prints out the entire inventory.
   public void printVehicles() {
     for(int a = 0; a < library.size(); a++) {
       library.get(a).printVehicle();
     }
   }
 
+  // Prints out every vehicle whose year matches the "yr" parameter.
   public void findByYear(int yr) {
     ArrayList<Vehicle> list = new ArrayList<Vehicle>();
     for(int a = 0; a < library.size(); a++) {
@@ -229,6 +240,7 @@ public class Vehicles {
     }
   }
 
+  // Prints out all vehicles whose manufacturer matches "mk"
   public void findByMake(String mk) {
     ArrayList<Vehicle> list = new ArrayList<Vehicle>();
     for(int a = 0; a < library.size(); a++) {
@@ -248,6 +260,7 @@ public class Vehicles {
     }
   }
 
+  // Adds the specified mileage to one or more vehicles in inventory.
   public void addToMileage(double miles, String... vins) {
     int len = vins.length;
     int num = len;
@@ -270,6 +283,7 @@ public class Vehicles {
     System.out.println("Increased the miles on " + num + " vehicles.");
   }
 
+  // Prints out the average MSRP in inventory.
   public void avgMsrp() {
     int num = library.size();
     double sum = 0;
@@ -284,6 +298,7 @@ public class Vehicles {
     System.out.println("The average MSRP in this inventory is $" + average);
   }
 
+  // Prints out the max MSRP in inventory.
   public void maxMsrp() {
     double max = 0;
     for(int a = 0; a < library.size(); a++) {
@@ -300,6 +315,7 @@ public class Vehicles {
     System.out.println("The max MSRP in this inventory is $" + max);
   }
 
+  // Prints the min MSRP in inventory.
   public void minMsrp() {
     double min = library.get(0).getMsrp();
     for(int a = 1; a < library.size(); a++) {
@@ -316,6 +332,7 @@ public class Vehicles {
     System.out.println("The min MSRP in this inventory is $" + min);
   }
 
+  // Prints the average mileage in inventory.
   public void avgMileage() {
     int num = library.size();
     double sum = 0;
@@ -331,6 +348,7 @@ public class Vehicles {
     System.out.println("The average mileage in this inventory is " + avg + " miles.");
   }
 
+  // Prints the max mileage in inventory.
   public void maxMileage() {
     double max = 0;
     for(int a = 0; a < library.size(); a++) {
@@ -347,6 +365,7 @@ public class Vehicles {
     System.out.println("The vehicle with the most miles in this inventory has " + max + " miles.");
   }
 
+  // Prints out the min mileage in inventory.
   public void minMileage() {
     double min = library.get(0).getMileage();
     for(int a = 1; a < library.size(); a++) {
@@ -363,6 +382,7 @@ public class Vehicles {
     System.out.println("The vehicle with the least amount of miles on it in this inventory has " + min + " miles.");
   }
 
+  // Prints out all vehicles in inventory who are due/overdue for oil change.
   public void getVehiclesNeedingOil() {
     for(int a = 0; a < library.size(); a++) {
       Vehicle current = library.get(a);
@@ -372,6 +392,7 @@ public class Vehicles {
     }
   }
 
+  // Lists command options for user.
   public static void listOptions() {
     System.out.println("- addVehicle");
     System.out.println("- deleteIndex(x), where x is the index of a vehicle in the list."); // error checking needed
