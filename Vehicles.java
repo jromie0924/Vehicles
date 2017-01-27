@@ -159,6 +159,51 @@ public class Vehicles {
     }
   }
 
+  public void changeOilChangeNeeds(String make, double freq) {
+    for(int a = 0; a < library.size(); a++) {
+      Vehicle current = library.get(a);
+      if(current.getMake().equalsIgnoreCase(make)) {
+        current.changeOilNeeds(freq);
+      }
+    }
+    try {
+      File currentFile = new File("specialReqs.csv");
+      File tempFile = new File("temp.csv");
+      BufferedReader reader = new BufferedReader(new FileReader(currentFile));
+      BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
+
+      String line;
+      boolean found = false;
+      while((line = reader.readLine()) != null) {
+        String[] params = line.split(",");
+        String fileMake = params[0];
+        if(fileMake.equalsIgnoreCase(make)) {
+          String fileFreq = Double.toString(freq);
+          line = fileMake + "," + fileFreq;
+          writer.write(line + "\r\n");
+          found = true;
+          break;
+        } else {
+          writer.write(line + "\r\n");
+        }
+      }
+      if(!found) {
+        line = make + "," + freq;
+        writer.write(line + "\r\n");
+      }
+      
+      writer.close();
+      boolean success = tempFile.renameTo(currentFile);
+      if(success) {
+        System.out.println("Successfully updated the oil changing needs for " + make + " cars.");
+      } else {
+        System.out.println("There was an error updating the oil changing needs for " + make + " cars");
+      }
+    } catch(IOException e) {
+      System.out.println("There was an error communicating with the data files.");
+    }
+  }
+
   public void printVehicles() {
     for(int a = 0; a < library.size(); a++) {
       library.get(a).printVehicle();
@@ -336,6 +381,7 @@ public class Vehicles {
     System.out.println("- findByYear(yr)"); // write this method
     System.out.println("- findByMake(mk)"); // write this method
     System.out.println("- addToMileage(vehicle(s), miles) -- this will take increase the mileage on each of the vehicles entered by the amount of miles specified."); // write this method
+    System.out.println("- ChangeOilFrequency(make, frequency) -- this will alter the oil changine needs for a specific car manufacturer.");
     System.out.println("- help -- print this option menu");
     System.out.println("- exit");
   }
@@ -451,6 +497,17 @@ public class Vehicles {
 
           else if(upper.equals("NEEDOIL")) {
             garage.getVehiclesNeedingOil();
+          }
+
+          else if(upper.contains("CHANGEOILFREQUENCY")) {
+            try {
+              String[] params = upper.substring(upper.indexOf("(") + 1, upper.lastIndexOf(")")).split(",");
+              String make = params[0];
+              double freq = Double.parseDouble(params[1]);
+              garage.changeOilChangeNeeds(make, freq);
+            } catch(Exception e) {
+              System.out.println("You entered invalid parameters. Please check the order and try again.");
+            }
           }
 
           else {

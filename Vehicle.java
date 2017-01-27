@@ -222,8 +222,13 @@ public class Vehicle {
     System.out.print("\n\n");
   }
 
-  public void changeOilChangeFreq(double newFreq) {
+  public void changeOilNeeds(double newFreq) {
     oilChangeFreq = newFreq;
+    if(milesSinceLastOilChange >= oilChangeFreq) {
+      dueForOilChange = true;
+    } else {
+      dueForOilChange = false;
+    }
   }
 
   public void changeMileage(double miles) {
